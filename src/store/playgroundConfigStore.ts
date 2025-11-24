@@ -2,8 +2,8 @@ import { create } from "zustand"
 import { persist } from "zustand/middleware"
 import { localStorageConfig } from "~/lib/utils"
 
-const FALLBACK_API_URL = import.meta.env.VITE_PLAYGROUND_API_URL || "https://blackbox-dev-playground.log1.com"
-const FALLBACK_WS_URL = import.meta.env.VITE_PLAYGROUND_WB_URL || "ws://blackbox-dev-playground.log1.com/ws"
+const FALLBACK_API_URL = import.meta.env.VITE_PLAYGROUND_API_URL 
+const FALLBACK_WS_URL = import.meta.env.VITE_PLAYGROUND_WB_URL
 
 type PlaygroundConfigState = {
 	apiBaseUrl: string
