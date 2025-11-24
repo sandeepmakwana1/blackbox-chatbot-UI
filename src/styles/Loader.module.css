@@ -1,0 +1,60 @@
+.container {
+	position: fixed;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: hsl(var(--background) / 0.8);
+	backdrop-filter: blur(4px);
+	z-index: 50;
+}
+
+.coffeeLoader {
+	--cup-height: 80px;
+	--cup-width: 90px;
+	--cup-border: 8px;
+	--handle-height: 35px;
+	--handle-width: 20px;
+}
+
+.loadingScreen {
+	width: calc(var(--cup-width) + var(--handle-width) + var(--cup-border) * 3);
+	position: relative;
+}
+
+.cup {
+	height: var(--cup-height);
+	width: var(--cup-width);
+	border: var(--cup-border) solid var(--cup-color);
+	border-radius: 0px 0px 35px 35px;
+	background: url("https://i.imgur.com/XVzRObX.png");
+	background-repeat: repeat-x;
+	background-position: 0px var(--cup-height);
+	animation: fill 3.5s infinite;
+}
+
+@keyframes fill {
+	0% {
+		background-position: 0px var(--cup-height);
+	}
+	20% {
+		background-position: calc(var(--cup-width) * -2.5) calc(var(--cup-height) * 0.7);
+	}
+	40% {
+		background-position: calc(var(--cup-width) * -5) calc(var(--cup-height) * 0.3);
+	}
+	80% {
+		background-position: calc(var(--cup-width) * -7.5) calc(var(--cup-height) * -0.3);
+	}
+}
+
+.handle {
+	height: var(--handle-height);
+	width: var(--handle-width);
+	background-color: transparent;
+	border: var(--cup-border) solid var(--cup-color);
+	position: relative;
+	left: var(--cup-width);
+	top: 1px;
+	border-radius: 0px 12px 40px 0px;
+}

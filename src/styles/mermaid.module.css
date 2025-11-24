@@ -1,0 +1,257 @@
+/* Mermaid Diagram Styles */
+.mermaidContainer {
+	width: 100%;
+	overflow-x: auto;
+	overflow-y: hidden;
+	padding: 0.5rem;
+	background-color: #f9fafb;
+	border-radius: 0.5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+}
+
+.mermaidWrapper {
+	display: inline-block;
+	transform-origin: center top;
+	transition: transform 0.3s ease;
+	max-width: 100%;
+}
+
+/* Diagram controls */
+.mermaidControls {
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
+	z-index: 10;
+	display: flex;
+	gap: 0.25rem;
+	background-color: rgba(255, 255, 255, 0.9);
+	backdrop-filter: blur(4px);
+	border-radius: 0.375rem;
+	padding: 0.25rem;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+	border: 1px solid rgba(0, 0, 0, 0.05);
+	opacity: 0;
+	transform: translateY(-5px);
+	transition: opacity 0.2s ease, transform 0.2s ease;
+	pointer-events: auto;
+}
+
+.mermaidControlsVisible {
+	opacity: 1 !important;
+	transform: translateY(0) !important;
+}
+
+.mermaidZoomIndicator {
+	position: absolute;
+	top: 0.5rem;
+	left: 0.5rem;
+	z-index: 10;
+	background-color: rgba(255, 255, 255, 0.9);
+	backdrop-filter: blur(4px);
+	border-radius: 0.25rem;
+	padding: 0.25rem 0.5rem;
+	font-size: 0.75rem;
+	color: #6b7280;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+	border: 1px solid rgba(0, 0, 0, 0.05);
+	opacity: 0;
+	transform: translateY(-5px);
+	transition: opacity 0.2s ease, transform 0.2s ease;
+	pointer-events: auto;
+}
+
+.mermaidZoomIndicatorVisible {
+	opacity: 1 !important;
+	transform: translateY(0) !important;
+}
+
+/* Remove default SVG margins and improve appearance */
+.mermaidContainer svg {
+	max-width: 100% !important;
+	height: auto !important;
+	display: block;
+	margin: 0 auto;
+}
+
+/* Fix text rendering in diagrams */
+.mermaidContainer text {
+	font-family: "Inter", ui-sans-serif, system-ui, sans-serif !important;
+	fill: #121822 !important;
+}
+
+/* Improve node styling */
+.mermaidContainer .node rect,
+.mermaidContainer .node circle,
+.mermaidContainer .node ellipse,
+.mermaidContainer .node polygon {
+	fill: #ffffff !important;
+	stroke: #5151d0 !important;
+	stroke-width: 2px !important;
+}
+
+/* Improve flowchart styling */
+.mermaidContainer .flowchart-link {
+	stroke: #6e7c91 !important;
+	stroke-width: 2px !important;
+}
+
+/* Improve label backgrounds */
+.mermaidContainer .label {
+	background-color: transparent !important;
+}
+
+.mermaidContainer .labelBkg {
+	fill: #ffffff !important;
+	fill-opacity: 0.9 !important;
+}
+
+/* Sequence diagram actor styling */
+.mermaidContainer .actor {
+	fill: #edf2f7 !important;
+	stroke: #5151d0 !important;
+}
+
+/* Gantt chart improvements */
+.mermaidContainer .task {
+	fill: #5151d0 !important;
+	stroke: #4848b9 !important;
+}
+
+.mermaidContainer .taskText {
+	fill: #121822 !important;
+	font-size: 12px !important;
+}
+
+/* Class diagram improvements */
+.mermaidContainer .classGroup rect {
+	fill: #ffffff !important;
+	stroke: #5151d0 !important;
+}
+
+.mermaidContainer .classGroup text {
+	fill: #121822 !important;
+}
+
+/* State diagram improvements */
+.mermaidContainer .state-start,
+.mermaidContainer .state-end {
+	fill: #5151d0 !important;
+	stroke: #4848b9 !important;
+}
+
+/* Pie chart improvements */
+.mermaidContainer .pieCircle {
+	stroke: #ffffff !important;
+	stroke-width: 2px !important;
+}
+
+/* ER diagram improvements */
+.mermaidContainer .er.entityBox {
+	fill: #f9fafb !important;
+	stroke: #5151d0 !important;
+}
+
+/* C4 diagram improvements */
+.mermaidContainer .person,
+.mermaidContainer .external_person {
+	fill: #edf2f7 !important;
+	stroke: #5151d0 !important;
+}
+
+.mermaidContainer .system,
+.mermaidContainer .external_system {
+	fill: #ffffff !important;
+	stroke: #5151d0 !important;
+}
+
+/* Journey diagram improvements */
+.mermaidContainer .journey-section {
+	fill: #eff1ff !important;
+}
+
+/* Git graph improvements */
+.mermaidContainer .commit {
+	fill: #5151d0 !important;
+	stroke: #4848b9 !important;
+}
+
+/* Responsive scaling */
+@media (max-width: 768px) {
+	.mermaidWrapper {
+		transform: scale(0.95);
+	}
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+	.mermaidWrapper {
+		transform: scale(0.98);
+	}
+}
+
+@media (min-width: 1025px) {
+	.mermaidWrapper {
+		transform: scale(1);
+	}
+}
+
+/* Scrollbar styling for diagram container */
+.mermaidContainer::-webkit-scrollbar {
+	height: 8px;
+}
+
+.mermaidContainer::-webkit-scrollbar-track {
+	background: #f2f4f7;
+	border-radius: 4px;
+}
+
+.mermaidContainer::-webkit-scrollbar-thumb {
+	background: #c6d0dd;
+	border-radius: 4px;
+}
+
+.mermaidContainer::-webkit-scrollbar-thumb:hover {
+	background: #92a0b5;
+}
+
+/* Print styles */
+@media print {
+	.mermaidContainer {
+		background-color: white !important;
+		page-break-inside: avoid;
+	}
+
+	.mermaidWrapper {
+		transform: scale(1) !important;
+	}
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+	.dark .mermaidContainer {
+		background-color: #1f2937;
+	}
+
+	.dark .mermaidContainer text {
+		fill: #f9fafb !important;
+	}
+
+	.dark .mermaidContainer .node rect,
+	.dark .mermaidContainer .node circle,
+	.dark .mermaidContainer .node ellipse,
+	.dark .mermaidContainer .node polygon {
+		fill: #374151 !important;
+		stroke: #c5ceff !important;
+	}
+
+	.dark .mermaidContainer .actor {
+		fill: #374151 !important;
+		stroke: #c5ceff !important;
+	}
+
+	.dark .mermaidContainer .labelBkg {
+		fill: #1f2937 !important;
+	}
+}

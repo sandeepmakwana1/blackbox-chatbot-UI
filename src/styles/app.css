@@ -1,0 +1,395 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+	--font-*: initial;
+	--font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+
+	--color-background: #ffffff;
+	--color-white: #ffffff;
+	--color-black: #000000;
+
+	--color-primary-100: #eff1ff;
+	--color-primary-200: #c5ceff;
+	--color-primary-300: #5a5ce9;
+	--color-primary-400: #4848b9;
+	--color-primary-500: #262866;
+	--color-primary: #5151d0;
+
+	--color-neutral-100: #f9fafb;
+	--color-neutral-200: #f2f4f7;
+	--color-neutral-300: #edf2f7;
+	--color-neutral-400: #dfe5ec;
+	--color-neutral-500: #c6d0dd;
+	--color-neutral-600: #92a0b5;
+	--color-neutral-700: #6e7c91;
+	--color-neutral-800: #334155;
+	--color-neutral-900: #121822;
+
+	--color-success-100: #e4f7f1;
+	--color-success-200: #8ed7c0;
+	--color-success-300: #159d72;
+	--color-success-400: #008259;
+	--color-success-500: #193b30;
+
+	--color-warning-100: #fff7d6;
+	--color-warning-200: #fcda97;
+	--color-warning-300: #fabc37;
+	--color-warning-400: #d97708;
+	--color-warning-500: #78350f;
+
+	--color-danger-100: #ffebe9;
+	--color-danger-200: #ff9292;
+	--color-danger-300: #e54848;
+	--color-danger-400: #cd2f34;
+	--color-danger-500: #641a1a;
+
+	--text-15: 15px;
+	--text-15--line-height: 22px;
+	--text-base: 16px;
+	--text-base--line-height: 22px;
+	--text-sm: 14px;
+	--text-sm--line-height: 20px;
+	--text-xs: 12px;
+	--text-xs--line-height: 18px;
+	--text-xxs: 10px;
+	--text-xxs--line-height: 14px;
+	--text-xxxs: 8px;
+	--text-xxxs--line-height: 10px;
+	--text-lg: 18px;
+	--text-lg--line-height: 26px;
+	--text-h1: 32px;
+	--text-h1--line-height: 40px;
+	--text-h1--letter-spacing: -0.02em;
+	--text-h2: 30px;
+	--text-h2--line-height: 38px;
+	--text-h2--letter-spacing: -0.02em;
+	--text-h3: 28px;
+	--text-h3--line-height: 36px;
+	--text-h3--letter-spacing: -0.02em;
+	--text-h4: 24px;
+	--text-h4--line-height: 32px;
+	--text-h4--letter-spacing: -0.02em;
+	--text-h5: 20px;
+	--text-h5--line-height: 30px;
+	--text-h5--letter-spacing: 0em;
+
+	--radius-sm: 0.375rem;
+	--radius-md: 0.5rem;
+	--radius-lg: 0.625rem;
+	--radius-xl: 0.75rem;
+
+	/* Accordion Animations */
+	--animate-accordion-down: accordion-down 0.2s ease-out;
+	--animate-accordion-up: accordion-up 0.2s ease-out;
+
+	/* Gradient Shift Animation */
+	--animate-gradient-shift: gradient-shift 3s ease-in-out infinite;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+	*,
+	::after,
+	::before,
+	::backdrop,
+	::file-selector-button {
+		border-color: var(--color-gray-200, currentcolor);
+	}
+
+	/* Accordion Keyframes */
+	@keyframes accordion-down {
+		from {
+			height: 0;
+		}
+		to {
+			height: var(--radix-accordion-content-height);
+		}
+	}
+
+	@keyframes accordion-up {
+		from {
+			height: var(--radix-accordion-content-height);
+		}
+		to {
+			height: 0;
+		}
+	}
+
+	/* Simple Magical Animation Keyframes */
+	@keyframes subtle-glow {
+		0%,
+		100% {
+			box-shadow: 0 2px 6px 0 #f0f3f8;
+		}
+		50% {
+			box-shadow: 0 0 10px rgba(81, 81, 208, 0.3);
+		}
+	}
+
+	/* Gradient Shift Animation Keyframes */
+	@keyframes gradient-shift {
+		0% {
+			background: linear-gradient(225deg, #ebf0ff 0%, #ffebf7 100%);
+		}
+		25% {
+			background: linear-gradient(315deg, #ebf0ff 0%, #ffebf7 100%);
+		}
+		50% {
+			background: linear-gradient(45deg, #ebf0ff 0%, #ffebf7 100%);
+		}
+		75% {
+			background: linear-gradient(135deg, #ebf0ff 0%, #ffebf7 100%);
+		}
+		100% {
+			background: linear-gradient(225deg, #ebf0ff 0%, #ffebf7 100%);
+		}
+	}
+
+	/* Smooth Rotating Gradient Animation */
+	@keyframes gradient-rotate {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+		100% {
+			background-position: 0% 50%;
+		}
+	}
+
+	@keyframes fade-in-up {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+}
+
+@utility custom-scrollbar {
+	scrollbar-width: thin;
+	scrollbar-color: transparent transparent;
+	transition: scrollbar-color 0.3s ease;
+
+	&::-webkit-scrollbar {
+		width: 6px;
+		height: 6px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: transparent;
+		border-radius: 20px;
+		border: transparent;
+		transition: background-color 0.3s ease;
+	}
+
+	&::-webkit-scrollbar-thumb:hover {
+		background-color: rgba(148, 163, 184, 0.5);
+	}
+
+	&:hover {
+		scrollbar-color: rgba(203, 213, 225, 0.4) transparent;
+
+		&::-webkit-scrollbar-thumb {
+			background-color: rgba(203, 213, 225, 0.4);
+		}
+	}
+
+	&.scrolling {
+		scrollbar-color: rgba(203, 213, 225, 0.4) transparent;
+
+		&::-webkit-scrollbar-thumb {
+			background-color: rgba(203, 213, 225, 0.4);
+		}
+	}
+}
+
+/* Custom Accordion Animation Utilities */
+@utility accordion-smooth {
+	&[data-state="open"] {
+		animation: var(--animate-accordion-down);
+	}
+
+	&[data-state="closed"] {
+		animation: var(--animate-accordion-up);
+	}
+}
+
+/* Simple Magical Input Animation Utilities */
+@utility magical-container {
+	&.optimizing {
+		animation: subtle-glow 2s ease-in-out infinite;
+		border-color: var(--color-primary);
+	}
+}
+
+/* Gradient Animation Utilities */
+@utility gradient-shift-hover {
+	transition: all 0.3s ease;
+
+	&:hover {
+		animation: var(--animate-gradient-shift);
+	}
+}
+
+@utility gradient-rotate-hover {
+	background-size: 300% 300%;
+	transition: all 0.3s ease;
+
+	&:hover {
+		background: linear-gradient(45deg, #ebf0ff, #ffebf7, #ebf0ff);
+		animation: gradient-rotate 3s linear infinite;
+		background-size: 400% 400%;
+	}
+}
+
+@utility gradient-rotate-continuous {
+	background: linear-gradient(225deg, #fadbf2, #d8e0f9);
+	background-size: 400% 400%;
+	animation: gradient-rotate 3s linear infinite;
+	transition: all 0.3s ease;
+}
+
+@utility dotted-background {
+	background-image: radial-gradient(#d3d3d3 1px, transparent 1px);
+	background-size: 20px 20px;
+	background-color: #ffffff;
+}
+
+@layer utilities {
+	@keyframes pulse {
+		0%,
+		100% {
+			opacity: 1;
+		}
+		50% {
+			opacity: 0.5;
+		}
+	}
+
+	.animate-pulse {
+		animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+	}
+
+	/* Simple animation utilities */
+	.animate-subtle-glow {
+		animation: subtle-glow 2s ease-in-out infinite;
+	}
+
+	/* Gradient Animation Utilities */
+	.animate-gradient-shift {
+		animation: var(--animate-gradient-shift);
+	}
+
+	.animate-gradient-rotate {
+		animation: gradient-rotate 3s linear infinite;
+	}
+
+	.animate-fade-in-up {
+		animation: fade-in-up 0.5s ease-out forwards;
+	}
+}
+
+@layer utilities {
+	html,
+	body {
+		overflow: hidden;
+		@apply bg-white dark:bg-gray-950;
+
+		/* @media (prefers-color-scheme: dark) {
+		color-scheme: dark;
+	} */
+	}
+
+	/* Alternative accordion animations with more options */
+	.animate-accordion-down {
+		animation: accordion-down 0.2s ease-out;
+	}
+
+	.animate-accordion-up {
+		animation: accordion-up 0.2s ease-out;
+	}
+
+	/* Smoother variants */
+	.animate-accordion-down-smooth {
+		animation: accordion-down 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.animate-accordion-up-smooth {
+		animation: accordion-up 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	/* Spring-like variants */
+	.animate-accordion-down-spring {
+		animation: accordion-down 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	}
+
+	.animate-accordion-up-spring {
+		animation: accordion-up 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	}
+}
+
+@layer utilities {
+	/* Keyframe animation for the 'in progress' state default background */
+	@keyframes in-progress-anim {
+		0%,
+		100% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+	}
+
+	/* Class for 'in progress' status */
+	.batch-in-progress:hover {
+		background: linear-gradient(101deg, #f8c369, #f6dfb1, #fcc697, #f5bf61);
+		background-size: 200% 200%;
+		animation: in-progress-anim 2s ease-in-out infinite;
+		transition: all 400ms ease-in-out;
+	}
+
+	.batch-in-progress {
+		animation: none; /* Stop the animation on hover */
+		background: linear-gradient(101deg, #fcc697 2.34%, #f9dfb7 53.13%, #f5bf61 97.51%);
+	}
+
+	/* Class for 'completed' status */
+	.batch-completed {
+		background-color: var(--color-neutral-300);
+	}
+
+	.batch-completed:hover {
+		background: linear-gradient(102deg, #eaf0f5, #daf1ea, #eaf0f5);
+		background-size: 400% 400%;
+		animation: gradient-rotate 3s linear infinite;
+	}
+
+	.batch-completed-step-2 {
+		background: linear-gradient(102deg, #eaf0f5, #daf1ea, #eaf0f5);
+		background-size: 400% 400%;
+		animation: gradient-rotate 3s linear infinite;
+	}
+
+	/* Class for 'failed' status (no hover effect specified) */
+	.batch-failed {
+		background-color: var(--color-danger-200);
+	}
+}
