@@ -1,18 +1,12 @@
-import { useState, useEffect, useCallback } from "react"
+import { useEffect, useMemo } from "react"
 import { ScanText, FolderSymlink, FileText } from "lucide-react"
 import { Button } from "~/components/ui/button"
 import { Switch } from "~/components/ui/switch"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "~/components/ui/dropdown-menu"
-import { useValidationStore } from "~/store/validationStore"
-import { useTabInfoStore } from "~/store/tabInfoStore"
 import type { ContextType } from "~/components/playground/types/playground"
-import { getCurrentPrestepStage } from "~/lib/utils"
 
 interface ContextSourcesDropdownProps {
-	context: string
-	sourceId: string
-	documentContext: ContextType[]
-	setdocumentContext: (contexts: ContextType[]) => void
+	setDocumentContext: (contexts: ContextType[]) => void
 	proposalDocsEnabled: boolean
 	setProposalDocsEnabled: (enabled: boolean) => void
 	currentPageEnabled: boolean
@@ -20,133 +14,29 @@ interface ContextSourcesDropdownProps {
 }
 
 const ContextSourcesDropdown = ({
-	context,
-	sourceId,
-	documentContext,
-	setdocumentContext,
+	setDocumentContext,
 	proposalDocsEnabled,
 	setProposalDocsEnabled,
 	currentPageEnabled,
 	setCurrentPageEnabled,
 }: ContextSourcesDropdownProps) => {
-	const { getCostingTabInfo, getValidationTabInfo, getContentTabInfo, getSummaryTabInfo, setOnTabChangeCallback } =
-		useTabInfoStore()
+	const calculatedContexts = useMemo(() => {
+		const contexts: ContextType[] = []
 
-	// Memoized context calculation function
-	const calculateContexts = useCallback(
-		(
-			context: string,
-			sourceId: string,
-			proposalDocsEnabled: boolean,
-			currentPageEnabled: boolean
-		): ContextType[] => {
-			// Early return if neither option is enabled
-			if (!proposalDocsEnabled && !currentPageEnabled) {
-				return []
-			}
-
-			// Base context always included when proposal docs are enabled
-			let contexts: ContextType[] = proposalDocsEnabled ? ["rfp_context"] : []
-
-			// Only add additional contexts if current page is enabled
-			if (!currentPageEnabled) {
-				return contexts
-			}
-
-			switch (context) {
-				case "presteps":
-					const prestepStage = getCurrentPrestepStage()
-					const stageTitle = prestepStage.title?.toLowerCase()
-
-					switch (stageTitle) {
-						case "table-of-content":
-							contexts.push("table_of_content")
-							break
-						case "preferences":
-							contexts.push("deep_research", "user_preference")
-							break
-					}
-					break
-
-				case "validation":
-					const currentValidationTab = getValidationTabInfo(sourceId)
-					switch (currentValidationTab) {
-						case "legal":
-							contexts.push("validation_legal")
-							break
-						case "technical":
-							contexts.push("validation_technical")
-							break
-					}
-					break
-
-				case "content-generation":
-					const currentContentTab = getContentTabInfo(sourceId)
-					switch (currentContentTab) {
-						case "summary":
-							const summaryTab = getSummaryTabInfo(sourceId)
-							switch (summaryTab) {
-								case "user-preferences":
-									contexts.push("user_preference")
-									break
-								case "deep-research":
-									contexts.push("deep_research")
-									break
-							}
-							break
-						case "contentgeneration":
-							contexts.push("content")
-							break
-						case "costing":
-							const currentCostingTab = getCostingTabInfo(sourceId)
-							switch (currentCostingTab) {
-								case "human-resources":
-									contexts.push("hourly_wages")
-									break
-								case "licenses":
-									contexts.push("rfp_license")
-									break
-								case "infrastructure":
-									contexts.push("rfp_infrastructure")
-									break
-							}
-							break
-					}
-					break
-			}
-
-			return contexts
-		},
-		[getValidationTabInfo, getContentTabInfo, getCostingTabInfo]
-	)
-
-	// Handle tab change callback
-	const handleTabChange = useCallback(
-		(changedSourceId: string, tabType: string, newTab: string) => {
-			// Only react to changes for this specific sourceId
-			if (changedSourceId === sourceId) {
-				const newContexts = calculateContexts(context, sourceId, proposalDocsEnabled, currentPageEnabled)
-				setdocumentContext(newContexts)
-			}
-		},
-		[sourceId, context, proposalDocsEnabled, currentPageEnabled, calculateContexts, setdocumentContext]
-	)
-
-	// Register callback on mount and update when dependencies change
-	useEffect(() => {
-		setOnTabChangeCallback(handleTabChange)
-
-		// Cleanup on unmount
-		return () => {
-			setOnTabChangeCallback(() => {})
+		if (proposalDocsEnabled) {
+			contexts.push("rfp_context")
 		}
-	}, [handleTabChange, setOnTabChangeCallback])
 
-	// Update context when toggle states change
+		if (currentPageEnabled) {
+			contexts.push("deep_research")
+		}
+
+		return contexts
+	}, [proposalDocsEnabled, currentPageEnabled])
+
 	useEffect(() => {
-		const newContexts = calculateContexts(context, sourceId, proposalDocsEnabled, currentPageEnabled)
-		setdocumentContext(newContexts)
-	}, [proposalDocsEnabled, currentPageEnabled, calculateContexts, context, sourceId, setdocumentContext])
+		setDocumentContext(calculatedContexts)
+	}, [calculatedContexts, setDocumentContext])
 
 	// Rest of the component remains the same...
 	const handleProposalDocsToggle = (checked) => {

@@ -31,7 +31,6 @@ import type { WebSocketMessageResponse, Chat, ContextType } from "~/components/p
 import { StyledMarkdown } from "~/components/playground/MarkdownComponentPlayground"
 import TypingDots from "~/components/playground/TypingDots"
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
-import { Switch } from "~/components/ui/switch"
 import { optimizePrompt } from "~/components/playground/handlers/playgroundHandlers"
 import { toast } from "sonner"
 import IconWrapper from "../ui/iconWrapper"
@@ -110,7 +109,6 @@ export const Playground: React.FC<PlaygroundProps> = ({ className, onZindex = fa
 	const streamingMessageIdRef = useRef<string | null>(null)
 	const [isExpanded, setIsExpanded] = useState(false)
 	const [isCopied, setIsCopied] = useState(false)
-	const [isContextEnabled, setIsContextEnabled] = useState(false)
 	const [isOptimizing, setIsOptimizing] = useState(false)
 	const [isCancelling, setIsCancelling] = useState(false)
 	const [documentContext, setDocumentContext] = useState<ContextType[]>([])
@@ -874,40 +872,22 @@ export const Playground: React.FC<PlaygroundProps> = ({ className, onZindex = fa
 											</DropdownMenuItem>
 										)
 									})}
-								</DropdownMenuContent>
-							</DropdownMenu>
+					</DropdownMenuContent>
+				</DropdownMenu>
 
-							<ContextSourcesDropdown
-								key={`${context}-${source_id}`}
-								context={context}
-								sourceId={source_id}
-								documentContext={documentContext}
-								setdocumentContext={setDocumentContext}
-								proposalDocsEnabled={proposalDocsEnabled}
-								setProposalDocsEnabled={setProposalDocsEnabled}
-								currentPageEnabled={currentPageEnabled}
-								setCurrentPageEnabled={setCurrentPageEnabled}
-							/>
-						</div>
+					<ContextSourcesDropdown
+						setDocumentContext={setDocumentContext}
+						proposalDocsEnabled={proposalDocsEnabled}
+						setProposalDocsEnabled={setProposalDocsEnabled}
+						currentPageEnabled={currentPageEnabled}
+						setCurrentPageEnabled={setCurrentPageEnabled}
+					/>
+				</div>
 
-						<div className="flex gap-1">
-							{/* <div className="flex gap-1 items-center">
-								<p
-									className={`text-xs font-medium ${
-										isContextEnabled ? "text-neutral-700" : "text-neutral-600"
-									}`}
-								>
-									Context
-								</p>
-								<Switch
-									checked={isContextEnabled}
-									onCheckedChange={setIsContextEnabled}
-									className="bg-neutral-400 border border-neutral-500"
-								/>
-							</div> */}
-							<Button
-								onClick={handleOptimizePrompt}
-								disabled={!input.trim() || isTyping || isOptimizing}
+				<div className="flex gap-1">
+					<Button
+						onClick={handleOptimizePrompt}
+						disabled={!input.trim() || isTyping || isOptimizing}
 								size="icon-pg"
 								variant="secondary"
 								className="border-0 disabled:opacity-10 gradient-rotate-hover transition-all duration-300"
