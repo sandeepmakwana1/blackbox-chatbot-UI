@@ -957,8 +957,7 @@ export const Playground: React.FC<PlaygroundProps> = ({ className, onZindex = fa
 			className={cn(
 				"h-full flex flex-col bg-white border-l border-gray-200 transition-all duration-300 overflow-hidden",
 				onZindex ? (isOpen ? "fixed right-0 top-0 w-90 z-40" : "hidden") : isOpen ? "w-90" : "w-0",
-				isExpanded &&
-					"fixed right-0 w-full h-full z-50 bg-black/50 flex items-baseline-last justify-center pr-2",
+				isExpanded && "fixed inset-0 z-50 bg-white flex items-stretch justify-center",
 				className
 			)}
 		>
@@ -966,7 +965,7 @@ export const Playground: React.FC<PlaygroundProps> = ({ className, onZindex = fa
 				<div
 					className={cn(
 						"h-full flex flex-col bg-white transition-all duration-300",
-						isExpanded && "rounded-xl max-w-3xl w-full max-h-[98vh] overflow-hidden"
+						isExpanded && "w-full h-full max-w-none overflow-hidden"
 					)}
 					// style={isExpanded ? { boxShadow: "-2px 0 6px 0 #BCCCDB" } : {}}
 				>
